@@ -1,0 +1,13 @@
+{
+  "name": "moon-sat-vercel-no-supabase",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "express": "^4.21.2"
+  }
+}
