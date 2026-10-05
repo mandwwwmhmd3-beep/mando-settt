@@ -21,13 +21,15 @@ function auth(req, res, next) {
   }
 }
 
-app.get('/api/health', (req, res) => res.json({
-  ok: true,
-  name: 'Moon Sat',
-  storageConfigured: false,
-  storage: 'none',
-  time: new Date().toISOString()
-}));
+app.get('/health', (req, res) => {
+  res.json({
+    ok: true,
+    name: 'Moon Sat',
+    storageConfigured: false,
+    storage: 'none',
+    time: new Date().toISOString()
+  });
+});
 
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body || {};
@@ -43,27 +45,29 @@ app.post('/api/login', (req, res) => {
 
   const token = jwt.sign({ username: ADMIN_USER }, SECRET, { expiresIn: '12h' });
   res.json({ token, username: ADMIN_USER });
+
 });
 
-/*
-  Vercel's serverless filesystem is not persistent, so this version
-  intentionally does not pretend to store uploaded files.
-  When a persistent storage provider is chosen later, these endpoints
-  can be connected without changing the login system.
-*/
-app.get('/api/files', auth, (req, res) => {
-  res.json({ files: [], storageConfigured: false });
+ /*
+  Vercel's serverless filesystem is not persistent.
+  This intentionally does not pretend to store uploaded files.
+  When a persistent storage provider is chosen later,
+  it can be connected without changing the login system.
+ */
+
+app.get('/files', auth, (req, res) => {
+  res.json({ files: [], storageConfigured: false, storage: 'none' });
 });
 
-app.post('/api/files', auth, (req, res) => {
+app.post('/files', auth, (req, res) => {
   res.status(503).json({
-    error: 'رفع الملفات غير مفعّل في هذه النسخة لأن التخزين السحابي غير مُعد.'
+    error: 'التخزين السحابي غير مُعد'
   });
 });
 
-app.delete('/api/files/:name', auth, (req, res) => {
+app.delete('/files/:name', auth, (req, res) => {
   res.status(503).json({
-    error: 'حذف الملفات غير مفعّل لأن التخزين السحابي غير مُعد.'
+    error: 'حذف الملفات غير مُفعل لأن التخزين السحابي غير مُعد'
   });
 });
 
