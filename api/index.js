@@ -21,7 +21,7 @@ function auth(req, res, next) {
   }
 }
 
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({
     ok: true,
     name: 'Moon Sat',
